@@ -1,3 +1,13 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  /* Nossas cores de Luxo */
+  --color-brand-green: #5E7052;
+  --color-brand-gold: #D4AF37;
+  --color-brand-light: #FAFAFA;
+  --color-brand-dark: #1A1A1A;
+
+  /* Nossas Fontes */
+  --font-sans: "Inter", sans-serif;
+  --font-serif: "Playfair Display", serif;
+}

@@ -1,10 +1,9 @@
 import { ShoppingBag, Menu } from 'lucide-react';
 import { useScroll } from '../../hooks/useScroll';
 
-// Como você salvou como logo, certifique-se da extensão (aqui assumi .jpg, mude se for .png)
-import logoImg from '../../assets/logo.webp'; 
+// Importação direta do SVG. O Vite otimiza isso perfeitamente no build.
+import logoImg from '../../assets/logo.svg';
 
-// Centralizar as rotas em uma constante facilita a manutenção (Clean Code)
 const NAV_LINKS = [
   { name: 'Home', href: '#' },
   { name: 'Acessórios', href: '#acessorios' },
@@ -18,60 +17,62 @@ export function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ${
         isScrolled
-          ? 'bg-brand-light/90 backdrop-blur-md py-4 shadow-sm' // Efeito de vidro (Glassmorphism) no scroll
-          : 'bg-transparent py-6' // Transparente e um pouco maior no topo
+          ? 'bg-brand-light/95 backdrop-blur-xl py-3 shadow-sm'
+          : 'bg-transparent py-6'
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         
-        {/* Menu Mobile (Hamburger) */}
+        {/* Menu Mobile */}
         <button className="md:hidden text-brand-dark hover:text-brand-gold transition-colors">
-          <Menu size={24} strokeWidth={1.5} />
+          <Menu size={24} strokeWidth={1.2} />
         </button>
 
-        {/* Links da Esquerda (Desktop) */}
-        <nav className="hidden md:flex items-center gap-8 w-1/3">
+        {/* Links da Esquerda */}
+        <nav className="hidden md:flex items-center justify-start gap-10 w-1/3">
           {NAV_LINKS.slice(0, 3).map((link) => (
             <a
               key={link.name}
               href={link.href}
-              className="text-[11px] uppercase tracking-[0.2em] font-medium text-brand-dark hover:text-brand-gold transition-colors"
+              className="group relative text-[10px] uppercase tracking-[0.25em] font-semibold text-brand-dark/80 hover:text-brand-dark transition-colors"
             >
               {link.name}
+              {/* Animated Underline */}
+              <span className="absolute -bottom-2 left-0 w-0 h-[1px] bg-brand-gold transition-all duration-300 group-hover:w-full"></span>
             </a>
           ))}
         </nav>
 
-        {/* Logo Centralizada */}
+        {/* Logo Centralizada (Pura e Limpa) */}
         <a href="#" className="w-1/3 flex justify-center items-center">
+          {/* Aumentei ligeiramente de h-12 para h-14 pois SVGs costumam ter margens internas menores */}
           <img 
             src={logoImg} 
             alt="Raiz & Luz" 
-            className="h-14 md:h-20 w-auto object-contain mix-blend-multiply" 
-            /* mix-blend-multiply esconde fundos brancos/cinzas em logos não transparentes */
+            className="h-12 md:h-14 w-auto object-contain drop-shadow-sm" 
           />
         </a>
 
-        {/* Links da Direita & Carrinho (Desktop) */}
-        <div className="flex items-center justify-end gap-8 w-1/3">
-          <nav className="hidden md:flex items-center gap-8">
+        {/* Links da Direita & Carrinho */}
+        <div className="flex items-center justify-end gap-10 w-1/3">
+          <nav className="hidden md:flex items-center gap-10">
             {NAV_LINKS.slice(3).map((link) => (
               <a
                 key={link.name}
                 href={link.href}
-                className="text-[11px] uppercase tracking-[0.2em] font-medium text-brand-dark hover:text-brand-gold transition-colors"
+                className="group relative text-[10px] uppercase tracking-[0.25em] font-semibold text-brand-dark/80 hover:text-brand-dark transition-colors"
               >
                 {link.name}
+                <span className="absolute -bottom-2 left-0 w-0 h-[1px] bg-brand-gold transition-all duration-300 group-hover:w-full"></span>
               </a>
             ))}
           </nav>
           
-          {/* Ícone de Carrinho Minimalista */}
-          <button className="text-brand-dark hover:text-brand-gold transition-colors relative group">
-            <ShoppingBag size={22} strokeWidth={1.2} />
-            <span className="absolute -top-1 -right-2 bg-brand-green text-brand-light text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center group-hover:bg-brand-gold transition-colors">
+          <button className="text-brand-dark hover:text-brand-gold transition-colors relative group flex items-center">
+            <ShoppingBag size={20} strokeWidth={1.2} />
+            <span className="absolute -top-1.5 -right-2 bg-brand-dark text-brand-light text-[8px] font-bold w-[14px] h-[14px] rounded-full flex items-center justify-center group-hover:bg-brand-gold group-hover:scale-110 transition-all duration-300">
               0
             </span>
           </button>
