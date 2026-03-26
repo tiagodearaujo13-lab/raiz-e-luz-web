@@ -1,121 +1,61 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  // Estado para armazenar a posição x e y do mouse
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  // Estado para saber se o mouse está sobre o texto (para aumentar o círculo)
+  const [isHovered, setIsHovered] = useState(false);
+
+  // Hook nativo do React para "ouvir" o movimento do mouse na tela
+  useEffect(() => {
+    const updateMousePosition = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener('mousemove', updateMousePosition);
+
+    // Clean up: boa prática de Clean Code para evitar memory leaks
+    return () => window.removeEventListener('mousemove', updateMousePosition);
+  }, []);
+
+  // Tamanho do círculo: 400px se o mouse estiver no texto, 40px caso contrário
+  const maskSize = isHovered ? 400 : 40;
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
+    <main className="h-screen w-full relative bg-brand-light flex items-center justify-center overflow-hidden cursor-default">
+      
+      {/* CAMADA DE FUNDO (Background Off-white, Texto Escuro) */}
+      <div className="absolute inset-0 flex flex-col items-center justify-center text-brand-dark px-4 text-center">
+        <h1 className="text-6xl md:text-8xl font-serif font-bold tracking-tighter">
+          Raiz & Luz
+        </h1>
+        <p className="mt-6 text-xl md:text-2xl font-sans font-light tracking-wide">
+          Pequenos detalhes, <span className="font-semibold text-brand-green">grande presença.</span>
+        </p>
+      </div>
+
+      {/* CAMADA DE MÁSCARA (Background Verde, Texto Claro) */}
+      {/* Utilizamos framer-motion para animar a propriedade CSS clip-path de forma suave e otimizada via GPU */}
+      <motion.div
+        className="absolute inset-0 bg-brand-green flex flex-col items-center justify-center text-brand-light px-4 text-center"
+        animate={{
+          clipPath: `circle(${maskSize}px at ${mousePosition.x}px ${mousePosition.y}px)`,
+        }}
+        transition={{ type: "tween", ease: "backOut", duration: 0.4 }}
+      >
+        <h1 
+          className="text-6xl md:text-8xl font-serif font-bold tracking-tighter cursor-pointer hover:scale-105 transition-transform duration-500"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
         >
-          Count is {count}
-        </button>
-      </section>
+          Raiz & Luz
+        </h1>
+        <p className="mt-6 text-xl md:text-2xl font-sans font-light tracking-wide">
+          Descubra a sua <span className="font-semibold text-brand-gold">verdadeira essência.</span>
+        </p>
+      </motion.div>
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+    </main>
+  );
 }
-
-export default App
