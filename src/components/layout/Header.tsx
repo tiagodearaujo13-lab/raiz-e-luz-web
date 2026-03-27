@@ -1,4 +1,4 @@
-import { ShoppingBag, Menu, X, Instagram } from 'lucide-react';
+import { ShoppingBag, Menu, X } from 'lucide-react'; // <-- Instagram removido daqui
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { useScroll } from '../../hooks/useScroll';
@@ -20,7 +20,7 @@ export function Header() {
   // Estado para controlar se o menu mobile está aberto ou fechado
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // Efeito para travar o scroll da página quando o menu estiver aberto (Boa prática de UX)
+  // Efeito para travar o scroll da página quando o menu estiver aberto
   useEffect(() => {
     if (isMobileMenuOpen) {
       document.body.style.overflow = 'hidden';
@@ -28,7 +28,6 @@ export function Header() {
       document.body.style.overflow = 'unset';
     }
     
-    // Clean up function
     return () => {
       document.body.style.overflow = 'unset';
     };
@@ -163,7 +162,7 @@ export function Header() {
                 ))}
               </nav>
 
-              {/* Rodapé do Menu Mobile (Redes Sociais e Contato) */}
+              {/* Rodapé do Menu Mobile (Redes Sociais e Contato) com SVG Nativo */}
               <div className="p-6 bg-brand-dark/5 mt-auto">
                 <p className="text-[10px] font-sans tracking-widest uppercase text-brand-dark/50 mb-4">
                   Conecte-se
@@ -174,7 +173,7 @@ export function Header() {
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 text-brand-dark hover:text-brand-gold transition-colors w-max"
                 >
-                  <Instagram size={18} strokeWidth={1.5} />
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
                   <span className="text-xs tracking-wider">@raizeluzacessorios</span>
                 </a>
               </div>
