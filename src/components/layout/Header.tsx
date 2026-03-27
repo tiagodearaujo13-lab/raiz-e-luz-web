@@ -3,25 +3,23 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { useScroll } from '../../hooks/useScroll';
 
-// Importação direta do SVG.
 import logoImg from '../../assets/logo.svg';
 
+// CORREÇÃO: Adicionamos a barra '/' antes de cada link para forçar a volta para a Home
 const NAV_LINKS = [
-  { name: 'Home', href: '#' },
-  { name: 'Acessórios', href: '#acessorios' },
-  { name: 'Sobre', href: '#sobre' },
-  { name: 'Depoimentos', href: '#depoimentos' },
-  { name: 'Contato', href: '#contato' },
+  { name: 'Home', href: '/' },
+  { name: 'Acessórios', href: '/#acessorios' },
+  { name: 'Sobre', href: '/#sobre' },
+  { name: 'Depoimentos', href: '/#depoimentos' },
+  { name: 'Contato', href: '/#contato' },
 ];
 
 export function Header() {
   const isScrolled = useScroll(100);
   
-  // Estados para controlar as Gavetas (Drawers)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
-  // Efeito para travar o scroll da página se QUALQUER menu estiver aberto
   useEffect(() => {
     if (isMobileMenuOpen || isCartOpen) {
       document.body.style.overflow = 'hidden';
@@ -45,7 +43,6 @@ export function Header() {
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-20 md:h-24 relative z-10">
           
-          {/* Botão do Menu Mobile */}
           <button 
             onClick={() => setIsMobileMenuOpen(true)}
             className="md:hidden text-brand-dark hover:text-brand-gold transition-colors p-2 -ml-2"
@@ -54,7 +51,6 @@ export function Header() {
             <Menu size={24} strokeWidth={1.2} />
           </button>
 
-          {/* Links da Esquerda (Desktop) */}
           <nav className="hidden md:flex items-center justify-start gap-12 w-1/3">
             {NAV_LINKS.slice(0, 3).map((link) => (
               <a
@@ -68,8 +64,8 @@ export function Header() {
             ))}
           </nav>
 
-          {/* Logo Centralizada */}
-          <a href="#" className="w-1/3 flex justify-center items-center h-full">
+          {/* CORREÇÃO: href="/" no logo para voltar à Home ao clicar na marca */}
+          <a href="/" className="w-1/3 flex justify-center items-center h-full">
             <motion.div
               className={`flex items-center justify-center ${isScrolled ? 'pointer-events-auto' : 'pointer-events-none'}`}
               initial={{ opacity: 0 }}
@@ -84,7 +80,6 @@ export function Header() {
             </motion.div>
           </a>
 
-          {/* Links da Direita & Carrinho (Desktop & Mobile) */}
           <div className="flex items-center justify-end gap-12 w-1/3">
             <nav className="hidden md:flex items-center gap-12">
               {NAV_LINKS.slice(3).map((link) => (
@@ -99,7 +94,6 @@ export function Header() {
               ))}
             </nav>
             
-            {/* Botão para abrir o Carrinho (Funciona no Mobile e no Desktop) */}
             <button 
               onClick={() => setIsCartOpen(true)}
               className="text-brand-dark hover:text-brand-gold transition-colors relative group flex items-center p-2 -mr-2 cursor-pointer"
@@ -113,9 +107,7 @@ export function Header() {
         </div>
       </header>
 
-      {/* ==========================================
-          MODAL DO MENU MOBILE (GAVETA ESQUERDA)
-          ========================================== */}
+      {/* MODAL DO MENU MOBILE */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <>
@@ -170,6 +162,7 @@ export function Header() {
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 text-brand-dark hover:text-brand-gold transition-colors w-max"
                 >
+                  {/* SVG Nativo mantido para evitar o bug do Lucide */}
                   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
                   <span className="text-xs tracking-wider">@raizeluzacessorios</span>
                 </a>
@@ -179,13 +172,10 @@ export function Header() {
         )}
       </AnimatePresence>
 
-      {/* ==========================================
-          MODAL DO CARRINHO (GAVETA DIREITA)
-          ========================================== */}
+      {/* MODAL DO CARRINHO */}
       <AnimatePresence>
         {isCartOpen && (
           <>
-            {/* Backdrop Escuro para o Carrinho */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -195,15 +185,13 @@ export function Header() {
               className="fixed inset-0 bg-brand-dark/60 backdrop-blur-sm z-[60]"
             />
             
-            {/* Gaveta do Carrinho (desliza da DIREITA para a ESQUERDA) */}
             <motion.aside
-              initial={{ x: '100%' }} // Começa fora da tela pela direita
+              initial={{ x: '100%' }}
               animate={{ x: 0 }}
-              exit={{ x: '100%' }} // Volta para a direita ao fechar
+              exit={{ x: '100%' }}
               transition={{ type: 'tween', ease: [0.33, 1, 0.68, 1], duration: 0.5 }}
               className="fixed top-0 right-0 w-[90%] max-w-md h-[100dvh] bg-brand-light z-[70] shadow-2xl flex flex-col overflow-y-auto"
             >
-              {/* Cabeçalho do Carrinho */}
               <div className="flex items-center justify-between p-6 border-b border-brand-dark/10">
                 <h2 className="text-[11px] font-sans tracking-[0.25em] uppercase text-brand-dark font-semibold">
                   Sua Sacola
@@ -217,7 +205,6 @@ export function Header() {
                 </button>
               </div>
 
-              {/* Corpo do Carrinho - Estado Vazio (Empty State Elegante) */}
               <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
                 <div className="w-20 h-20 rounded-full bg-brand-dark/5 flex items-center justify-center text-brand-dark/20 mb-8">
                   <ShoppingBag size={32} strokeWidth={1} />
@@ -229,16 +216,16 @@ export function Header() {
                   Explore nossa coleção exclusiva e encontre a peça perfeita para iluminar sua essência.
                 </p>
                 
-                {/* Botão para continuar comprando */}
-                <button 
+                {/* CORREÇÃO AQUI TAMBÉM: Voltar para Coleções ao invés de fechar sem fazer nada */}
+                <a 
+                  href="/colecoes"
                   onClick={() => setIsCartOpen(false)}
-                  className="px-8 py-4 bg-brand-dark text-brand-light text-[10px] font-sans tracking-[0.25em] uppercase hover:bg-brand-gold transition-colors duration-300 w-full"
+                  className="inline-block px-8 py-4 bg-brand-dark text-brand-light text-[10px] font-sans tracking-[0.25em] uppercase hover:bg-brand-gold transition-colors duration-300 w-full text-center"
                 >
                   Continuar Explorando
-                </button>
+                </a>
               </div>
 
-              {/* Rodapé Fixo do Carrinho (Resumo de valores) */}
               <div className="p-6 border-t border-brand-dark/10 bg-white">
                 <div className="flex justify-between items-center mb-6">
                   <span className="text-brand-dark/60 uppercase tracking-widest text-[10px] font-semibold">

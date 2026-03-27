@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 
 // Importação das suas imagens
-import grid0 from '../../assets/grid-0.png';
+import grid0 from '../../assets/grid-0.png'; // Ajustado para .jpg com base nos seus uploads recentes
 import grid2 from '../../assets/grid-2.png';
 import grid3 from '../../assets/grid-3.png';
 import grid4 from '../../assets/grid-4.png';
@@ -59,7 +59,8 @@ function AutoCarouselCard({ collection }: { collection: any }) {
 
   return (
     <motion.a
-      href={`#${collection.title.toLowerCase()}`}
+      // ATUALIZAÇÃO DO LINK: Agora aponta para a página de coleções!
+      href={`/colecoes#${collection.title.toLowerCase()}`}
       className={`group relative overflow-hidden bg-brand-dark flex items-end ${collection.span}`}
       // Animação de entrada na rolagem da tela (ScrollTrigger)
       initial={{ opacity: 0, y: 60 }}
@@ -124,7 +125,8 @@ export function FeaturedGrid() {
             </h3>
           </motion.div>
           <a 
-            href="#todas-as-pecas" 
+            // ATUALIZAÇÃO DO LINK PRINCIPAL: Direciona para o roteador
+            href="/colecoes" 
             className="group flex items-center gap-2 text-xs font-sans tracking-[0.2em] uppercase text-brand-dark hover:text-brand-gold transition-colors pb-2"
           >
             Ver todas as peças
@@ -143,7 +145,8 @@ export function FeaturedGrid() {
             return (
               <motion.a 
                 key={collection.id}
-                href={`#${collection.title.toLowerCase()}`}
+                // ATUALIZAÇÃO DOS LINKS INDIVIDUAIS: Apontando para o Acervo
+                href={`/colecoes#${collection.title.toLowerCase()}`}
                 className={`group relative overflow-hidden bg-brand-dark flex items-end ${collection.span}`}
                 // Efeito ScrollTrigger em todos os cards
                 initial={{ opacity: 0, y: 60 }}
