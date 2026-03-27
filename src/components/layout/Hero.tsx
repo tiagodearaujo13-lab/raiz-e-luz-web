@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 
-// Importando as imagens maravilhosas que você adicionou
+// Importando as imagens
 import hero0 from '../../assets/hero-0.png';
 import hero1 from '../../assets/hero-1.png';
 
@@ -29,7 +29,7 @@ export function Hero() {
     return () => clearInterval(interval);
   }, []);
 
-  const maskSize = isHovered ? 450 : 40; // Aumentei um pouco o círculo para o efeito ser mais dramático
+  const maskSize = isHovered ? 450 : 40; 
 
   return (
     <section className="h-screen w-full relative bg-brand-dark overflow-hidden cursor-default">
@@ -46,13 +46,13 @@ export function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 1.5, ease: "easeInOut" }} // Crossfade de 1.5s
+          transition={{ duration: 1.5, ease: "easeInOut" }} 
           className="absolute inset-0 w-full h-full object-cover"
         />
       </AnimatePresence>
 
       {/* Overlay Escuro e Fosco (Efeito matte/vidro escurecido) */}
-      <div className="absolute inset-0 bg-brand-dark/60 backdrop-blur-[2px] z-10" />
+      <div className="absolute inset-0 bg-brand-dark/70 backdrop-blur-[2px] z-10" />
 
       {/* Texto da Camada Fosca */}
       <div className="absolute inset-0 flex flex-col items-center justify-center text-brand-light px-4 text-center z-10 pointer-events-none">
@@ -65,7 +65,7 @@ export function Hero() {
       </div>
 
       {/* =========================================================
-          CAMADA 2: MÁSCARA CLARA (Reveal Layer)
+          CAMADA 2: MÁSCARA CLARA (Reveal Layer) - Onde aplicamos o efeito
           ========================================================= */}
       <motion.div
         className="absolute inset-0 z-20 overflow-hidden pointer-events-none"
@@ -88,13 +88,16 @@ export function Hero() {
           />
         </AnimatePresence>
 
-        {/* Overlay ultra leve só para garantir a leitura do texto brilhante */}
-        <div className="absolute inset-0 bg-black/20" />
+        {/* Overlay ultra leve só para garantir a leitura */}
+        <div className="absolute inset-0 bg-black/10" />
 
         {/* Texto da Camada Brilhante */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-brand-light px-4 text-center">
           <h1 
-            className="text-6xl md:text-8xl font-serif font-bold tracking-tighter cursor-pointer hover:scale-105 transition-transform duration-700 pointer-events-auto drop-shadow-2xl text-white"
+            // AQUI ESTÁ A MÁGICA DO HOVER DOURADO MODERNIZADA PARA LUXO
+            className="text-6xl md:text-8xl font-serif font-bold tracking-tighter cursor-pointer pointer-events-auto drop-shadow-2xl text-white transition-all duration-700 
+                       hover:scale-105 
+                       hover:bg-linear-to-r hover:from-[#C5A028] hover:via-[#FFFACD] hover:to-[#D4AF37] hover:bg-clip-text hover:text-transparent"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
