@@ -1,4 +1,5 @@
 import { ShoppingBag, Menu } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { useScroll } from '../../hooks/useScroll';
 
 // Importação direta do SVG. O Vite otimiza isso perfeitamente no build.
@@ -13,7 +14,9 @@ const NAV_LINKS = [
 ];
 
 export function Header() {
-  const isScrolled = useScroll(50);
+  // Aumentei o limite do scroll para 100px para garantir que o logo suma
+  // completamente enquanto estiver no Hero.
+  const isScrolled = useScroll(100);
 
   return (
     <header
@@ -23,7 +26,8 @@ export function Header() {
           : 'bg-transparent py-6'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-20 md:h-24 relative z-10">
+        {/* Adicionei h-20 md:h-24 para garantir um contêiner alto e estável para o logo maior */}
         
         {/* Menu Mobile */}
         <button className="md:hidden text-brand-dark hover:text-brand-gold transition-colors">
@@ -31,12 +35,13 @@ export function Header() {
         </button>
 
         {/* Links da Esquerda */}
-        <nav className="hidden md:flex items-center justify-start gap-10 w-1/3">
+        <nav className="hidden md:flex items-center justify-start gap-12 w-1/3">
           {NAV_LINKS.slice(0, 3).map((link) => (
             <a
               key={link.name}
               href={link.href}
-              className="group relative text-[10px] uppercase tracking-[0.25em] font-semibold text-brand-dark/80 hover:text-brand-dark transition-colors"
+              // Aumentei a fonte para text-[11px] e tracking-[0.3em]
+              className="group relative text-[11px] uppercase tracking-[0.3em] font-semibold text-brand-dark/80 hover:text-brand-dark transition-colors"
             >
               {link.name}
               {/* Animated Underline */}
@@ -45,24 +50,33 @@ export function Header() {
           ))}
         </nav>
 
-        {/* Logo Centralizada (Pura e Limpa) */}
-        <a href="#" className="w-1/3 flex justify-center items-center">
-          {/* Aumentei ligeiramente de h-12 para h-14 pois SVGs costumam ter margens internas menores */}
-          <img 
-            src={logoImg} 
-            alt="Raiz & Luz" 
-            className="h-12 md:h-14 w-auto object-contain drop-shadow-sm" 
-          />
+        {/* Logo Centralizada (Pura e Limpa, com Visibilidade Condicional via Framer Motion) */}
+        <a href="#" className="w-1/3 flex justify-center items-center h-full">
+          {/* Envolvi em motion.div para a animação suave de opacidade */}
+          <motion.div
+            className={`flex items-center justify-center ${isScrolled ? 'pointer-events-auto' : 'pointer-events-none'}`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: isScrolled ? 1 : 0 }}
+            transition={{ duration: 0.5, ease: 'easeInOut' }}
+          >
+            {/* Aumentei o tamanho do logo para h-14 md:h-16 */}
+            <img 
+              src={logoImg} 
+              alt="Raiz & Luz" 
+              className="h-14 md:h-16 w-auto object-contain drop-shadow-sm" 
+            />
+          </motion.div>
         </a>
 
         {/* Links da Direita & Carrinho */}
-        <div className="flex items-center justify-end gap-10 w-1/3">
-          <nav className="hidden md:flex items-center gap-10">
+        <div className="flex items-center justify-end gap-12 w-1/3">
+          <nav className="hidden md:flex items-center gap-12">
             {NAV_LINKS.slice(3).map((link) => (
               <a
                 key={link.name}
                 href={link.href}
-                className="group relative text-[10px] uppercase tracking-[0.25em] font-semibold text-brand-dark/80 hover:text-brand-dark transition-colors"
+                // Aumentei a fonte para text-[11px] e tracking-[0.3em]
+                className="group relative text-[11px] uppercase tracking-[0.3em] font-semibold text-brand-dark/80 hover:text-brand-dark transition-colors"
               >
                 {link.name}
                 <span className="absolute -bottom-2 left-0 w-0 h-[1px] bg-brand-gold transition-all duration-300 group-hover:w-full"></span>
@@ -71,7 +85,7 @@ export function Header() {
           </nav>
           
           <button className="text-brand-dark hover:text-brand-gold transition-colors relative group flex items-center">
-            <ShoppingBag size={20} strokeWidth={1.2} />
+            <ShoppingBag size={22} strokeWidth={1.2} />
             <span className="absolute -top-1.5 -right-2 bg-brand-dark text-brand-light text-[8px] font-bold w-[14px] h-[14px] rounded-full flex items-center justify-center group-hover:bg-brand-gold group-hover:scale-110 transition-all duration-300">
               0
             </span>
