@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 
 // Importação das suas imagens
-import grid0 from '../../assets/grid-0.png'; // Ajustado para .jpg com base nos seus uploads recentes
+import grid0 from '../../assets/grid-0.png';
 import grid2 from '../../assets/grid-2.png';
 import grid3 from '../../assets/grid-3.png';
 import grid4 from '../../assets/grid-4.png';
