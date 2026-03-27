@@ -1,53 +1,75 @@
 import logoImg from '../../assets/logo.svg';
 
+// Mapeamento explícito de links para suportar o React Router (SPA)
+const NAV_LINKS = [
+  { name: 'Home', href: '/' },
+  { name: 'O Acervo', href: '/colecoes' },
+  { name: 'Nossa História', href: '/#sobre' },
+  { name: 'Depoimentos', href: '/#depoimentos' },
+];
+
+const SUPPORT_LINKS = [
+  { name: 'FAQ', href: '#' },
+  { name: 'Entregas', href: '#' },
+  { name: 'Devoluções', href: '#' },
+  { name: 'Garantia', href: '#' },
+];
+
 export function Footer() {
   return (
     <footer className="bg-brand-light border-t border-gray-200 pt-24 pb-10">
       <div className="max-w-7xl mx-auto px-6">
         
-        {/* Grid Principal do Rodapé (Agora com 4 colunas bem distribuídas) */}
+        {/* Grid Principal do Rodapé (4 colunas bem distribuídas) */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8 mb-20">
           
-          {/* Coluna 1: Marca e Sobre (Ocupa 4 colunas no desktop) */}
+          {/* Coluna 1: Marca e Sobre */}
           <div className="flex flex-col items-start md:col-span-4 pr-0 md:pr-12">
-            <img src={logoImg} alt="Raiz & Luz" className="h-12 w-auto mb-8 drop-shadow-sm" />
+            <a href="/">
+              <img src={logoImg} alt="Raiz & Luz" className="h-12 w-auto mb-8 drop-shadow-sm hover:scale-105 transition-transform duration-300" />
+            </a>
             <p className="text-brand-dark/70 text-xs font-sans font-light leading-relaxed mb-6">
               Pequenos detalhes, grande presença. Descubra a elegância que ilumina a sua verdadeira essência através de nossas peças exclusivas, feitas para brilhar com você.
             </p>
           </div>
 
-          {/* Coluna 2: Navegação (Ocupa 2 colunas) */}
+          {/* Coluna 2: Navegação */}
           <div className="flex flex-col items-start md:col-span-2">
             <h4 className="text-[10px] font-sans tracking-[0.25em] uppercase text-brand-gold font-semibold mb-6">
               Navegação
             </h4>
             <nav className="flex flex-col gap-4">
-              {['Home', 'Acessórios', 'Sobre', 'Depoimentos'].map((item) => (
+              {NAV_LINKS.map((link) => (
                 <a 
-                  key={item} 
-                  href={`#${item.toLowerCase()}`} 
+                  key={link.name} 
+                  href={link.href} 
                   className="text-[11px] font-sans tracking-widest uppercase text-brand-dark/70 hover:text-brand-gold transition-colors"
                 >
-                  {item}
+                  {link.name}
                 </a>
               ))}
             </nav>
           </div>
 
-          {/* Coluna 3: Atendimento (Ocupa 2 colunas) */}
+          {/* Coluna 3: Suporte */}
           <div className="flex flex-col items-start md:col-span-2">
             <h4 className="text-[10px] font-sans tracking-[0.25em] uppercase text-brand-gold font-semibold mb-6">
               Suporte
             </h4>
             <nav className="flex flex-col gap-4">
-              <a href="#" className="text-[11px] font-sans tracking-widest uppercase text-brand-dark/70 hover:text-brand-gold transition-colors">FAQ</a>
-              <a href="#" className="text-[11px] font-sans tracking-widest uppercase text-brand-dark/70 hover:text-brand-gold transition-colors">Entregas</a>
-              <a href="#" className="text-[11px] font-sans tracking-widest uppercase text-brand-dark/70 hover:text-brand-gold transition-colors">Devoluções</a>
-              <a href="#" className="text-[11px] font-sans tracking-widest uppercase text-brand-dark/70 hover:text-brand-gold transition-colors">Garantia</a>
+              {SUPPORT_LINKS.map((link) => (
+                <a 
+                  key={link.name} 
+                  href={link.href} 
+                  className="text-[11px] font-sans tracking-widest uppercase text-brand-dark/70 hover:text-brand-gold transition-colors"
+                >
+                  {link.name}
+                </a>
+              ))}
             </nav>
           </div>
 
-          {/* Coluna 4: Contato e Newsletter (Ocupa 4 colunas) */}
+          {/* Coluna 4: Contato e Newsletter */}
           <div className="flex flex-col items-start md:col-span-4">
             <h4 className="text-[10px] font-sans tracking-[0.25em] uppercase text-brand-gold font-semibold mb-6">
               Mantenha-se Iluminada
@@ -68,7 +90,7 @@ export function Footer() {
               </button>
             </form>
 
-            {/* Redes Sociais com SVGs Nativos (Fim do bug!) */}
+            {/* Redes Sociais com SVGs Nativos */}
             <div className="flex gap-4">
               <a 
                 href="https://www.instagram.com/raizeluzacessorios/" 
@@ -91,16 +113,17 @@ export function Footer() {
 
         </div>
 
-        {/* Linha de Direitos Autorais (Copyright) */}
+        {/* Linha de Direitos Autorais (Copyright) & Páginas Obrigatórias */}
         <div className="border-t border-brand-dark/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-[9px] font-sans tracking-widest uppercase text-brand-dark/50">
             &copy; {new Date().getFullYear()} Raiz & Luz Acessórios. Todos os direitos reservados.
           </p>
           <div className="flex gap-6">
-            <a href="#" className="text-[9px] font-sans tracking-widest uppercase text-brand-dark/50 hover:text-brand-gold transition-colors">
+            {/* Links apontando para as rotas que vamos criar */}
+            <a href="/privacidade" className="text-[9px] font-sans tracking-widest uppercase text-brand-dark/50 hover:text-brand-gold transition-colors">
               Políticas de Privacidade
             </a>
-            <a href="#" className="text-[9px] font-sans tracking-widest uppercase text-brand-dark/50 hover:text-brand-gold transition-colors">
+            <a href="/termos" className="text-[9px] font-sans tracking-widest uppercase text-brand-dark/50 hover:text-brand-gold transition-colors">
               Termos de Uso
             </a>
           </div>
